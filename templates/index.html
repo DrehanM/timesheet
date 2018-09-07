@@ -1,69 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>timesheet.</title>
-</head>
-
-<body>
-
-    <div class = "container">
-
-        <div class = "row">
-            <div class = "col-sm-12">
-                <h1 align = "center">
-                    timesheet
-                </h1>
-            </div>
-        </div>
-            <p align = "center">
-                keeping track of your time for you.
-            </p>
-    </div>
-
-    <div class = "container">
-        <div class = "row">
-            <div id = "register">
-                <form action = "/register" method = "post" align = "center" autocomplete = off>
-                    <h4>
-                        <i>Register as New User</i>
-                    </h4>
-                    Username
-                    <br>
-                    <input title = "username" type = "text" name = "username">
-                    <br>
-                    Password
-                    <br>
-                    <input title = "password" type = "text" name = "password">
-                    <br>
-                    <br>
-                    <input type = "submit">
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class = "container">
-        <div class = "row">
-            <div class = "col-sm-6 col-centered" id = "user_items">
-                <form action = "/login" method = "get" align = "center" autocomplete = off>
-                    <h4>
-                        <i>Login</i>
-                    </h4>
-                    Username
-                    <br>
-                    <input title = "username" type = "text" name = "username">
-                    <br>
-                    Password
-                    <br>
-                    <input title = "password" type = "text" name = "password">
-                    <br>
-                    <br>
-                    <input type = "submit">
-                </form>
-            </div>
-        </div>
-    </div>
-</body>
+<html>
+    <body>
+        <form action ='/' method='post'>
+            <input placeholder='Name' name='name'>
+            <input placeholder='Post Content' name='post'>
+            <input type='submit' value='Submit'>
+        </form>
+        {% for post in posts %}
+        <div>{{ post[1] + ': ' + post[2] }}</div>
+        {% endfor %}
+    </body>
 </html>
