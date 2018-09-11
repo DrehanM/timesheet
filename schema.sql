@@ -1,7 +1,26 @@
-DROP TABLE IF EXISTS posts;
-	CREATE TABLE posts (
-		id INTEGER PRIMARY KEY,
-		name TEXT NOT NULL,
-		content TEXT NOT NULL
-	)
-;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS subjects;
+
+CREATE TABLE users (
+	id INTEGER PRIMARY KEY,
+	username TEXT NOT NULL,
+	dateCreated INTEGER,
+	numSessions INTEGER
+);
+
+CREATE TABLE sessions (
+	id INTEGER PRIMARY KEY,
+	owner TEXT NOT NULL,
+	subject TEXT NOT NULL,
+	dateCreated INTEGER NOT NULL,
+	startTime INTEGER NOT NULL,
+	endTime INTEGER NOT NULL
+);
+
+CREATE TABLE subjects (
+	id INTEGER PRIMARY KEY,
+	owner TEXT NOT NULL,
+	parent TEXT,
+	dateCreated INTEGER NOT NULL
+);

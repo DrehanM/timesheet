@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <form action ='/' method='post'>
-            <input placeholder='Name' name='name'>
-            <input placeholder='Post Content' name='post'>
-            <input type='submit' value='Submit'>
-        </form>
-        {% for post in posts %}
-        <div>{{ post[1] + ': ' + post[2] }}</div>
-        {% endfor %}
+        <div id="main-container">
+            <div id="select">
+                <button id="new-session">New Session</button>
+                <button id="new-subject">New Subject</button>
+                <button id="view-stats">View Summary</button>
+            </div>
+        
+            <form action ='/' method='post'>
+                <input placeholder='Name' name='name'>
+                <input placeholder='Post Content' name='post'>
+                <input type='submit' value='Submit'>
+            </form>
+            {% for post in posts %}
+            <div>{{ post[1] + ': ' + post[2] }}</div>
+            {% endfor %}
+        </div>
     </body>
 </html>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from flask_cors import CORS
 from models import create_post, get_posts
+import hashlib, binascii
 
 app = Flask(__name__)
 
@@ -21,6 +22,14 @@ def index():
 
 
     return render_template('index.html', posts=posts)
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+
+    
+    
 
 
 if __name__ == '__main__':
