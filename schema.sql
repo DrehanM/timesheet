@@ -3,24 +3,26 @@ DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS subjects;
 
 CREATE TABLE users (
-	id INTEGER PRIMARY KEY,
+	id BIGINT PRIMARY KEY,
 	username TEXT NOT NULL,
-	dateCreated INTEGER,
-	numSessions INTEGER
+	dateCreated INT,
+	numSessions INT
 );
 
 CREATE TABLE sessions (
-	id INTEGER PRIMARY KEY,
+	id INT PRIMARY KEY,
 	owner TEXT NOT NULL,
 	subject TEXT NOT NULL,
-	dateCreated INTEGER NOT NULL,
-	startTime INTEGER NOT NULL,
-	endTime INTEGER NOT NULL
+	dateCreated INT NOT NULL,
+	startTime INT NOT NULL,
+	endTime INT NOT NULL
 );
 
 CREATE TABLE subjects (
-	id INTEGER PRIMARY KEY,
+	id INT PRIMARY KEY,
 	owner TEXT NOT NULL,
 	parent TEXT,
-	dateCreated INTEGER NOT NULL
+	dateCreated INT NOT NULL
 );
+
+INSERT INTO users (id, username) VALUES (438398031073640448, 'admin');
