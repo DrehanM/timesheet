@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, jsonify, make_response
 from flask_cors import CORS
 from functools import wraps
 from hashlib import sha1
-from models import get_user, create_post, get_posts
+from models import get_user, register_user
+from utils import hash_it, hash_login
 
 app = Flask(__name__)
 
@@ -15,11 +16,15 @@ def authorize(f):
         request_id = sha1()
 
         if auth:
+            '''
             request_id.update(bytes(auth.username, encoding="utf-8"))
             request_id.update(bytes(auth.password, encoding="utf-8"))
-            hash_id = int(float('%f' % (int(request_id.hexdigest(), 16) % 1e18)))
+            user_id = int(float('%f' % (int(request_id.hexdigest(), 16) % 1e18)))
+            '''
 
-            returned_user = get_user(hash_id)
+            user_id = hash_login(auth.username, auth.password)
+            returned_user = get_user(user_id)
+
             if returned_user:
                 return f(returned_user)
                 
@@ -36,9 +41,22 @@ def index(username):
 def login(username):
     return render_template('index.html', posts='')
 
-@app.route('/register')
+#Must finish implementing
+@app.route('/register', methods=['GET', 'POST'])
 def register():
-    return '<h1> Register here</h1>'
+    if request.method == 'GET':
+        pass
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        user_id = hash_login(username, password)
+
+        register_user(user_id, username)
+
+    return '<h1>Register Here</h1>'
+
 
 @app.route('/user/<string:username>')
 @authorize
