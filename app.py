@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 CORS(app)
 
-def auth_required(f):
+def authorize(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
@@ -21,22 +21,31 @@ def auth_required(f):
 
             returned_user = get_user(hash_id)
             if returned_user:
-                return f(*args, **kwargs)
+                return f(returned_user)
                 
         return make_response('Could not verify.', 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
     return decorated
  
 @app.route('/', methods=['GET', 'POST'])
-@auth_required
-def index():
+@authorize
+def index(username):
     return'<h1>Hello World</h1>'
 
 @app.route('/login')
-@auth_required
-def login():
+@authorize
+def login(username):
     return render_template('index.html', posts='')
-    
-    
+
+@app.route('/register')
+def register():
+    return '<h1> Register here</h1>'
+
+@app.route('/user/<string:username>')
+@authorize
+def profile(username):
+    username = username[0][0]
+    return render_template('profile.html', username=username)
+
 
 
 if __name__ == '__main__':
