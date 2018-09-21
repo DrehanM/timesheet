@@ -1,4 +1,19 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>timesheet. - {{user['username']}}</title>
+    </head>
     <body>
-        <h1>Hello {{username}}</h1>
+        <h1 class="center-align teal lighten">Hello {{user['username']}}</h1>
+
+        <div id="select">
+            <ul>
+                <li><a class="waves-effect waves-light btn-large"><i class="small material-icons left">add</i>session</a></li>
+                <li><a class="waves-effect waves-light btn-large"><i class="small material-icons left">add</i>subject</a></li>
+                <li><a class="waves-effect waves-light btn-large"><i class="small material-icons left">insert_chart</i>summary</a></li>      
+            </ul>
+        </div>
+    </body>
+</html>

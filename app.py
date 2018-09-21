@@ -3,7 +3,7 @@ from flask_cors import CORS
 from functools import wraps
 from hashlib import sha1
 from models import get_user, register_user
-from utils import hash_it, hash_login
+from utils import hash_it, hash_login, hash256_it, hash256_login
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def authorize(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         auth = request.authorization
-        request_id = sha1()
+        #request_id = sha1()
 
         if auth:
             '''
@@ -22,47 +22,53 @@ def authorize(f):
             user_id = int(float('%f' % (int(request_id.hexdigest(), 16) % 1e18)))
             '''
 
-            user_id = hash_login(auth.username, auth.password)
+            user_id = hash256_login(auth.username, auth.password)
             returned_user = get_user(user_id)
 
             if returned_user:
-                return f(returned_user)
+                user_info = {
+                    'user_id'       : returned_user[0][0],
+                    'username'      : returned_user[0][1],
+                    'date_created'  : returned_user[0][2],
+                    'num_sessions'  : returned_user[0][3]
+                }
+                return f(user_info)
                 
         return make_response('Could not verify.', 401, {'WWW-Authenticate' : 'Basic realm="Login Required"'})
     return decorated
  
 @app.route('/', methods=['GET', 'POST'])
-@authorize
-def index(username):
-    return'<h1>Hello World</h1>'
+def index():
+    return '<h1>INDEX EMPTY</h1>'
 
-@app.route('/login')
-@authorize
-def login(username):
-    return render_template('index.html', posts='')
-
-#Must finish implementing
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'GET':
-        pass
-
+@app.route('/login', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POSTS'])
+def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
+        username = request.form['username']
+        password = request.form['password']
+        user_id = hash256_login(username, password)
+        returned_user = get_user(user_id)
 
-        user_id = hash_login(username, password)
+        if returned_user:
+            user_info = {
+                'user_id'       : returned_user[0][0],
+                'username'      : returned_user[0][1],
+                'date_created'  : returned_user[0][2],
+                'num_sessions'  : returned_user[0][3]
+            }
 
-        register_user(user_id, username)
+    return render_template('register.html')
 
-    return '<h1>Register Here</h1>'
-
-
-@app.route('/user/<string:username>')
+@app.route('/profile')
 @authorize
-def profile(username):
-    username = username[0][0]
-    return render_template('profile.html', username=username)
+def profile(user):
+    '''
+    content = {
+        'username' = user[0][0]
+    }
+    '''
+    return render_template('profile.html', user=user)
 
 
 

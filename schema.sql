@@ -3,26 +3,26 @@ DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS subjects;
 
 CREATE TABLE users (
-	id BIGINT PRIMARY KEY,
+	id TEXT PRIMARY KEY,
 	username TEXT NOT NULL,
-	dateCreated INT,
-	numSessions INT
+	email TEXT NOT NULL,
+	dateCreated TEXT NOT NULL
 );
 
 CREATE TABLE sessions (
-	id INT PRIMARY KEY,
-	owner TEXT NOT NULL,
+	id TEXT PRIMARY KEY,
+	owner_id TEXT NOT NULL,
 	subject TEXT NOT NULL,
-	dateCreated INT NOT NULL,
-	startTime INT NOT NULL,
-	endTime INT NOT NULL
+	dateCreated TEXT NOT NULL,
+	startTime TEXT NOT NULL,
+	endTime TEXT NOT NULL
 );
 
 CREATE TABLE subjects (
 	id INT PRIMARY KEY,
-	owner TEXT NOT NULL,
+	owner_id TEXT NOT NULL,
 	parent TEXT,
-	dateCreated INT NOT NULL
+	dateCreated TEXT NOT NULL
 );
 
-INSERT INTO users (id, username) VALUES (438398031073640448, 'admin');
+INSERT INTO users (id, username, email, dateCreated) VALUES ('749f09bade8aca755660eeb17792da880218d4fbdc4e25fbec279d7fe9f65d70', 'admin', 'admin@timesheet.com', 'epoch');
